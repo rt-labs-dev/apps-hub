@@ -26,7 +26,7 @@ export const apps: App[] = [
     description:
       "ClipShelf keeps everything you copy one click away. Open it from the tray or menu bar, click an item, and it is back on your clipboard, ready to paste.",
     icon: "/apps/clipshelf/icon.png",
-    releasesRepo: "rtobo-apps/clipshelf-releases",
+    releasesRepo: "rt-labs-dev/clipshelf-releases",
     platforms: ["windows", "mac"],
     requirements: {
       windows: "Windows 10 or 11, 64-bit",
