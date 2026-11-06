@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from "astro";
 import Base from "../../layouts/Base.astro";
 import RtClipPreview from "../../components/RtClipPreview.astro";
+import RtWowSyncPreview from "../../components/RtWowSyncPreview.astro";
 import DownloadButtons from "../../components/DownloadButtons.astro";
 import { apps, indexNumber, PLATFORM_NAMES, type App } from "../../data/apps";
 
@@ -9,7 +10,11 @@ export const getStaticPaths = (() => apps.map((app) => ({ params: { slug: app.sl
 
 const { app } = Astro.props as { app: App };
 
-const previews: Record<string, typeof RtClipPreview> = { "rt-clip": RtClipPreview };
+const previews: Record<string, typeof RtClipPreview> = {
+  "rt-clip": RtClipPreview,
+  "rt-wow-sync": RtWowSyncPreview,
+};
+const wide = app.widePreview === true;
 const Preview = previews[app.slug];
 
 const specs = [
@@ -28,7 +33,7 @@ const specs = [
     <span class="text-neutral-300">{app.name}</span>
   </nav>
 
-  <section class="grid gap-14 py-12 lg:grid-cols-[1fr_360px] lg:items-center lg:py-16">
+  <section class={`grid gap-14 py-12 lg:py-16 ${wide ? "" : "lg:grid-cols-[1fr_360px] lg:items-center"}`}>
     <div>
       <div class="flex items-center gap-4">
         <img src={app.icon} alt="" width="64" height="64" class="size-16 rounded-2xl" />
@@ -41,8 +46,10 @@ const specs = [
         <DownloadButtons app={app} />
       </div>
     </div>
-    {Preview && <div class="flex justify-center lg:justify-end"><Preview /></div>}
+    {Preview && !wide && <div class="flex justify-center lg:justify-end"><Preview /></div>}
   </section>
+
+  {Preview && wide && <section class="pb-16"><Preview /></section>}
 
   <section class="grid gap-x-16 gap-y-12 border-t border-line py-16 lg:grid-cols-[1fr_22rem]">
     <div>

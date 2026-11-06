@@ -13,6 +13,7 @@ export type App = {
   specs: { label: string; value: string }[];
   features: { title: string; body: string }[];
   notes: string[];
+  widePreview?: boolean;
 };
 
 export const PLATFORM_NAMES: Record<Platform, string> = { windows: "Windows", mac: "macOS" };
@@ -68,6 +69,60 @@ export const apps: App[] = [
       "The macOS version is not notarized yet. After moving it to Applications, right-click it and choose Open the first time.",
       "Windows 11 places new tray icons in the hidden icons area. Drag the rt-clip icon onto the taskbar to keep it one click away.",
     ],
+  },
+  {
+    slug: "rt-wow-sync",
+    name: "rt-wow-sync",
+    kind: "Game utility",
+    tagline: "Your World of Warcraft addon settings, keybindings and macros, the same on every PC.",
+    description:
+      "rt-wow-sync snapshots the settings of each game flavor and keeps them in sync between your PCs, through a folder you already sync or your own Google Drive. Launch the game from it and you always start with the latest settings.",
+    icon: "/apps/rt-wow-sync/icon.png",
+    releasesRepo: "rt-labs-dev/rt-wow-sync-releases",
+    platforms: ["windows", "mac"],
+    requirements: {
+      windows: "Windows 10 or 11, 64-bit",
+      mac: "macOS 11 or later, Apple silicon or Intel",
+    },
+    specs: [
+      { label: "Price", value: "Free" },
+      { label: "Syncs", value: "Each flavor's settings, and optionally its addons" },
+      { label: "Sync location", value: "A folder you choose, or your own Google Drive" },
+      { label: "Drive access", value: "Only files the app created itself" },
+      { label: "Built with", value: "Go, Wails and React" },
+    ],
+    features: [
+      {
+        title: "Settings, and addons if you want",
+        body: "Syncs addon SavedVariables, per-character settings, keybindings and macros. Turn on addon sync to bring the addons themselves along, or keep using your addon manager.",
+      },
+      {
+        title: "Launch with the latest",
+        body: "Launch the game from rt-wow-sync and it pulls newer settings first, so you never start a session with yesterday's layout.",
+      },
+      {
+        title: "Knows what changed",
+        body: "Each flavor shows whether it is in sync, has local changes, is behind the cloud, or changed on both sides.",
+      },
+      {
+        title: "Safe by default",
+        body: "Never syncs while the game is running, and backs up your current files before anything replaces them.",
+      },
+      {
+        title: "Pull-only PCs",
+        body: "Mark a laptop or second PC as pull-only. It always takes the latest settings and never overwrites your main PC.",
+      },
+      {
+        title: "Copy macros",
+        body: "Copy macros between characters and between game flavors, without retyping them.",
+      },
+    ],
+    notes: [
+      "The macOS version is not notarized yet. After moving it to Applications, right-click it and choose Open the first time.",
+      "Set every PC to the same sync location. Signing in to Google does not switch an existing folder setup.",
+      "rt-wow-sync is not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft is a trademark of Blizzard Entertainment, Inc.",
+    ],
+    widePreview: true,
   },
 ];
 
