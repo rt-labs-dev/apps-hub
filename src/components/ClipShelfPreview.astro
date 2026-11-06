@@ -1,0 +1,87 @@
+---
+import { File, Image, Link2, Search, Settings, Star, Type } from "lucide-static";
+import { icon } from "../lib/icons";
+
+type Row =
+  | { group: string }
+  | { glyph: string; title: string; meta?: string; time: string; swatch?: string; image?: boolean; mono?: boolean; favorite?: boolean };
+
+const rows: Row[] = [
+  { group: "Today" },
+  { glyph: Type, title: "Moved the sync call to 3:30, same room as last week", time: "2m" },
+  { glyph: Link2, title: "github.com", meta: "/rtobo-apps/clipshelf-releases", time: "6m" },
+  { glyph: "", swatch: "#22d3ee", title: "#22d3ee", meta: "Color", time: "14m", mono: true, favorite: true },
+  { glyph: Image, title: "", image: true, meta: "1920 × 1080 · 412 KB", time: "1h" },
+  { group: "Yesterday" },
+  { glyph: File, title: "invoice-2026-10.pdf", meta: "Documents", time: "1d" },
+  { glyph: Type, title: "SELECT id, title FROM media WHERE watched = 0;", time: "1d", mono: true },
+];
+
+let count = 0;
+---
+
+<figure
+  class="w-full max-w-[360px] overflow-hidden rounded-xl [font-family:'Segoe_UI',system-ui,sans-serif] [&_kbd]:[font-family:inherit] border border-cyan-400/25 bg-[#0f1113] text-[13px] text-neutral-100 shadow-[0_30px_80px_-20px_rgb(34_211_238/0.25)]"
+  aria-label="The ClipShelf popup, showing sample clipboard items"
+>
+  <div class="flex h-10 items-center gap-2 border-b border-white/10 pr-1.5 pl-3">
+    <Fragment set:html={icon(Search, "size-3.5 text-neutral-500")} />
+    <span class="flex-1 text-neutral-500">Search clipboard</span>
+    <span class="h-4 w-px bg-white/10"></span>
+    <span class="p-1.5 text-neutral-400"><Fragment set:html={icon(Star, "size-3.5")} /></span>
+  </div>
+  <div>
+    {
+      rows.map((row) => {
+        if ("group" in row) {
+          return <p class="px-3 pt-2.5 pb-1 text-[10px] font-semibold tracking-wider text-neutral-500 uppercase">{row.group}</p>;
+        }
+        count += 1;
+        const selected = count === 1;
+        return (
+          <div class={`relative flex items-center gap-2.5 px-3 py-1.5 ${selected ? "bg-white/[0.07]" : ""}`}>
+            {selected && <span class="absolute inset-y-1.5 left-0 w-0.5 rounded-full bg-cyan-400" />}
+            <span class={`grid size-6 shrink-0 place-items-center rounded-md bg-white/5 ${selected ? "text-cyan-300" : "text-neutral-400"}`}>
+              {row.swatch ? (
+                <span class="size-3.5 rounded-sm ring-1 ring-white/20" style={`background:${row.swatch}`} />
+              ) : (
+                <Fragment set:html={icon(row.glyph, "size-3.5")} />
+              )}
+            </span>
+            <span class="min-w-0 flex-1">
+              {row.image ? (
+                <span class="flex h-16 w-28 items-end gap-1 rounded-md border border-white/10 bg-[#1a1d21] px-2 pt-3 pb-2">
+                  {[45, 70, 55, 90, 65, 100].map((height) => (
+                    <span class="flex-1 rounded-sm bg-cyan-400/70" style={`height:${height}%`} />
+                  ))}
+                </span>
+              ) : (
+                <span
+                  class={`line-clamp-2 ${row.mono ? "[font-family:Consolas,ui-monospace,monospace] text-[12px]" : ""} ${row.meta === undefined ? "" : "truncate"} ${
+                    row.glyph === Link2 ? "font-medium text-cyan-300" : ""
+                  }`}
+                >
+                  {row.title}
+                </span>
+              )}
+              {row.meta && <span class="mt-0.5 block truncate text-[11px] text-neutral-500">{row.meta}</span>}
+            </span>
+            <span class="flex shrink-0 flex-col items-end gap-1">
+              <span class="flex items-center gap-1 text-[10px] text-neutral-500">
+                {row.favorite && <Fragment set:html={icon(Star, "size-2.5 fill-cyan-400 text-cyan-400")} />}
+                {row.time}
+              </span>
+              <kbd class="rounded border border-white/10 px-1 text-[9px] leading-3.5 text-neutral-500">{count}</kbd>
+            </span>
+          </div>
+        );
+      })
+    }
+  </div>
+  <div class="mt-1 flex h-8 items-center gap-2 border-t border-white/10 pr-1.5 pl-3 text-[11px] text-neutral-400">
+    <span class="size-1.5 rounded-full bg-cyan-400"></span>
+    Synced
+    <span class="ml-auto text-neutral-500"><kbd class="text-neutral-400">Ctrl+1-9</kbd> to copy</span>
+    <span class="p-1"><Fragment set:html={icon(Settings, "size-3.5")} /></span>
+  </div>
+</figure>

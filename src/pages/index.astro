@@ -1,0 +1,74 @@
+---
+import { ArrowRight } from "lucide-static";
+import Base from "../layouts/Base.astro";
+import { apps, indexNumber, PLATFORM_NAMES } from "../data/apps";
+import { icon } from "../lib/icons";
+import { latestRelease } from "../lib/releases";
+
+const rows = await Promise.all(
+  apps.map(async (app) => ({ app, release: await latestRelease(app.releasesRepo) })),
+);
+---
+
+<Base title="RT Labs" description="Desktop tools, media apps and other projects from RT Labs.">
+  <section class="grid gap-8 py-16 sm:py-24 lg:grid-cols-[1fr_22rem] lg:items-end">
+    <div>
+      <p class="font-mono text-xs tracking-widest text-cyan-400 uppercase">Index of projects</p>
+      <h1 class="mt-5 text-5xl font-semibold tracking-tight text-neutral-50 sm:text-7xl">RT Labs</h1>
+    </div>
+    <p class="max-w-md text-neutral-400 lg:pb-2">
+      Desktop tools, media apps and other projects I build and use every day. Free to download, with your data kept on
+      your devices or your own servers.
+    </p>
+  </section>
+
+  <section class="pb-24">
+    <div
+      class="hidden grid-cols-[3rem_1fr_10rem_8rem_1.5rem] gap-6 border-b border-line pb-3 font-mono text-[11px] tracking-wider text-neutral-500 uppercase md:grid"
+    >
+      <span>No.</span>
+      <span>Project</span>
+      <span>Platforms</span>
+      <span>Status</span>
+      <span></span>
+    </div>
+    <ul>
+      {
+        rows.map(({ app, release }) => (
+          <li class="border-b border-line">
+            <a
+              href={`/${app.slug}/`}
+              class="group grid grid-cols-[2.5rem_1fr_1.5rem] items-center gap-x-4 gap-y-2 py-6 md:grid-cols-[3rem_1fr_10rem_8rem_1.5rem] md:gap-6"
+            >
+              <span class="font-mono text-sm text-neutral-500 group-hover:text-cyan-400">{indexNumber(app)}</span>
+              <span class="flex min-w-0 items-center gap-4">
+                <img src={app.icon} alt="" width="48" height="48" class="size-12 shrink-0 rounded-xl" />
+                <span class="min-w-0">
+                  <span class="flex flex-wrap items-baseline gap-x-3">
+                    <span class="text-lg font-medium text-neutral-100 group-hover:text-cyan-300">{app.name}</span>
+                    <span class="font-mono text-[11px] text-neutral-500">{app.kind}</span>
+                  </span>
+                  <span class="mt-0.5 block text-sm text-neutral-400">{app.tagline}</span>
+                </span>
+              </span>
+              <span class="col-start-2 font-mono text-xs text-neutral-400 md:col-start-auto">
+                {app.platforms.map((platform) => PLATFORM_NAMES[platform]).join(" / ")}
+              </span>
+              <span class="col-start-2 font-mono text-xs md:col-start-auto">
+                <span class="inline-flex items-center gap-2 text-neutral-300">
+                  <span class={`size-1.5 rounded-full ${release ? "bg-cyan-400" : "bg-amber-400"}`} />
+                  {release ? `v${release.version}` : "Release soon"}
+                </span>
+              </span>
+              <span
+                class="col-start-3 row-start-1 text-neutral-600 transition-transform group-hover:translate-x-1 group-hover:text-cyan-400 md:col-start-auto md:row-start-auto"
+                set:html={icon(ArrowRight, "size-5")}
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 font-mono text-[11px] text-neutral-600">More projects are on the way.</p>
+  </section>
+</Base>

@@ -1,0 +1,48 @@
+---
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/500.css";
+import "@fontsource/ibm-plex-sans/600.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "../styles/global.css";
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+const fullTitle = title === "RT Labs" ? title : `${title} · RT Labs`;
+const year = new Date().getFullYear();
+---
+
+<html lang="en" class="bg-ink">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <title>{fullTitle}</title>
+  </head>
+  <body class="min-h-screen bg-ink font-sans text-neutral-300 antialiased">
+    <div class="mx-auto flex min-h-screen max-w-6xl flex-col px-4 sm:px-8">
+      <header class="flex h-16 items-center justify-between border-b border-line">
+        <a href="/" class="flex items-center gap-3 text-neutral-100">
+          <img src="/logo.svg" alt="" class="size-7" />
+          <span class="font-medium tracking-tight">RT Labs</span>
+        </a>
+        <span class="font-mono text-xs text-neutral-500">apps.rtobo.dev</span>
+      </header>
+      <main class="flex-1">
+        <slot />
+      </main>
+      <footer class="flex flex-wrap items-center justify-between gap-2 border-t border-line py-6 font-mono text-[11px] text-neutral-500">
+        <span>RT Labs, {year}</span>
+        <span>No ads or tracking on this site.</span>
+      </footer>
+    </div>
+  </body>
+</html>

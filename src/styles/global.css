@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-ink: #0b0c0e;
+  --color-panel: #121417;
+  --color-line: rgb(255 255 255 / 0.09);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+::selection {
+  background: rgb(34 211 238 / 0.3);
+}
