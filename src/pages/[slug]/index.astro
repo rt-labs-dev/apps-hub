@@ -33,21 +33,38 @@ const specs = [
     <span class="text-neutral-300">{app.name}</span>
   </nav>
 
-  <section class={`grid gap-14 py-12 lg:py-16 ${wide ? "" : "lg:grid-cols-[1fr_360px] lg:items-center"}`}>
-    <div>
-      <div class="flex items-center gap-4">
-        <img src={app.icon} alt="" width="64" height="64" class="size-16 rounded-2xl" />
-        <span class="font-mono text-xs tracking-widest text-cyan-400 uppercase">{app.kind}</span>
-      </div>
-      <h1 class="mt-6 text-5xl font-semibold tracking-tight text-neutral-50 sm:text-6xl">{app.name}</h1>
-      <p class="mt-4 max-w-xl text-xl text-neutral-200">{app.tagline}</p>
-      <p class="mt-4 max-w-xl text-neutral-400">{app.description}</p>
-      <div class="mt-10">
-        <DownloadButtons app={app} />
-      </div>
-    </div>
-    {Preview && !wide && <div class="flex justify-center lg:justify-end"><Preview /></div>}
-  </section>
+  {
+    wide ? (
+      <section class="py-12 lg:py-16">
+        <div class="flex items-center gap-4">
+          <img src={app.icon} alt="" width="64" height="64" class="size-16 rounded-2xl" />
+          <span class="font-mono text-xs tracking-widest text-cyan-400 uppercase">{app.kind}</span>
+        </div>
+        <h1 class="mt-6 text-5xl font-semibold tracking-tight text-neutral-50 sm:text-6xl">{app.name}</h1>
+        <p class="mt-4 max-w-4xl text-xl text-neutral-200">{app.tagline}</p>
+        <div class="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-16">
+          <p class="max-w-2xl text-neutral-400">{app.description}</p>
+          <DownloadButtons app={app} />
+        </div>
+      </section>
+    ) : (
+      <section class="grid gap-14 py-12 lg:grid-cols-[1fr_360px] lg:items-center lg:py-16">
+        <div>
+          <div class="flex items-center gap-4">
+            <img src={app.icon} alt="" width="64" height="64" class="size-16 rounded-2xl" />
+            <span class="font-mono text-xs tracking-widest text-cyan-400 uppercase">{app.kind}</span>
+          </div>
+          <h1 class="mt-6 text-5xl font-semibold tracking-tight text-neutral-50 sm:text-6xl">{app.name}</h1>
+          <p class="mt-4 max-w-xl text-xl text-neutral-200">{app.tagline}</p>
+          <p class="mt-4 max-w-xl text-neutral-400">{app.description}</p>
+          <div class="mt-10">
+            <DownloadButtons app={app} />
+          </div>
+        </div>
+        {Preview && <div class="flex justify-center lg:justify-end"><Preview /></div>}
+      </section>
+    )
+  }
 
   {Preview && wide && <section class="pb-16"><Preview /></section>}
 
