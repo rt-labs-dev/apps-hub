@@ -19,14 +19,14 @@ export const PLATFORM_NAMES: Record<Platform, string> = { windows: "Windows", ma
 
 export const apps: App[] = [
   {
-    slug: "clipshelf",
-    name: "ClipShelf",
+    slug: "rt-clip",
+    name: "rt-clip",
     kind: "Desktop utility",
     tagline: "Clipboard history in your tray, synced through your own Google Drive.",
     description:
-      "ClipShelf keeps everything you copy one click away. Open it from the tray or menu bar, click an item, and it is back on your clipboard, ready to paste.",
-    icon: "/apps/clipshelf/icon.png",
-    releasesRepo: "rt-labs-dev/clipshelf-releases",
+      "rt-clip keeps everything you copy one click away. Open it from the tray or menu bar, click an item, and it is back on your clipboard, ready to paste.",
+    icon: "/apps/rt-clip/icon.png",
+    releasesRepo: "rt-labs-dev/rt-clip-releases",
     platforms: ["windows", "mac"],
     requirements: {
       windows: "Windows 10 or 11, 64-bit",
@@ -66,7 +66,7 @@ export const apps: App[] = [
     ],
     notes: [
       "The macOS version is not notarized yet. After moving it to Applications, right-click it and choose Open the first time.",
-      "Windows 11 places new tray icons in the hidden icons area. Drag the ClipShelf icon onto the taskbar to keep it one click away.",
+      "Windows 11 places new tray icons in the hidden icons area. Drag the rt-clip icon onto the taskbar to keep it one click away.",
     ],
   },
 ];

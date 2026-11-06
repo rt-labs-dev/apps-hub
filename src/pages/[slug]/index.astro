@@ -1,7 +1,7 @@
 ---
 import type { GetStaticPaths } from "astro";
 import Base from "../../layouts/Base.astro";
-import ClipShelfPreview from "../../components/ClipShelfPreview.astro";
+import RtClipPreview from "../../components/RtClipPreview.astro";
 import DownloadButtons from "../../components/DownloadButtons.astro";
 import { apps, indexNumber, PLATFORM_NAMES, type App } from "../../data/apps";
 
@@ -9,7 +9,7 @@ export const getStaticPaths = (() => apps.map((app) => ({ params: { slug: app.sl
 
 const { app } = Astro.props as { app: App };
 
-const previews: Record<string, typeof ClipShelfPreview> = { clipshelf: ClipShelfPreview };
+const previews: Record<string, typeof RtClipPreview> = { "rt-clip": RtClipPreview };
 const Preview = previews[app.slug];
 
 const specs = [

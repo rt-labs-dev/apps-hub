@@ -9,7 +9,7 @@ type Row =
 const rows: Row[] = [
   { group: "Today" },
   { glyph: Type, title: "Moved the sync call to 3:30, same room as last week", time: "2m" },
-  { glyph: Link2, title: "github.com", meta: "/rt-labs-dev/clipshelf-releases", time: "6m" },
+  { glyph: Link2, title: "github.com", meta: "/rt-labs-dev/rt-clip-releases", time: "6m" },
   { glyph: "", swatch: "#22d3ee", title: "#22d3ee", meta: "Color", time: "14m", mono: true, favorite: true },
   { glyph: Image, title: "", image: true, meta: "1920 × 1080 · 412 KB", time: "1h" },
   { group: "Yesterday" },
@@ -22,7 +22,7 @@ let count = 0;
 
 <figure
   class="w-full max-w-[360px] overflow-hidden rounded-xl [font-family:'Segoe_UI',system-ui,sans-serif] [&_kbd]:[font-family:inherit] border border-cyan-400/25 bg-[#0f1113] text-[13px] text-neutral-100 shadow-[0_30px_80px_-20px_rgb(34_211_238/0.25)]"
-  aria-label="The ClipShelf popup, showing sample clipboard items"
+  aria-label="The rt-clip popup, showing sample clipboard items"
 >
   <div class="flex h-10 items-center gap-2 border-b border-white/10 pr-1.5 pl-3">
     <Fragment set:html={icon(Search, "size-3.5 text-neutral-500")} />
