@@ -29,11 +29,11 @@ const macUniversal: DownloadOption = { platform: "mac", label: "macOS", patterns
 export const apps: App[] = [
   {
     slug: "rt-clip",
-    name: "rt-clip",
+    name: "RT Clip",
     kind: "Desktop utility",
     tagline: "Clipboard history in your tray, synced through your own Google Drive.",
     description:
-      "rt-clip keeps everything you copy one click away. Open it from the tray or menu bar, click an item, and it is back on your clipboard, ready to paste.",
+      "RT Clip keeps everything you copy one click away. Open it from the tray or menu bar, click an item, and it is back on your clipboard, ready to paste.",
     icon: "/apps/rt-clip/icon.png",
     releasesRepo: "rt-labs-dev/rt-clip-releases",
     platforms: ["windows", "mac"],
@@ -76,16 +76,16 @@ export const apps: App[] = [
     ],
     notes: [
       "The macOS version is not notarized yet. After moving it to Applications, right-click it and choose Open the first time.",
-      "Windows 11 places new tray icons in the hidden icons area. Drag the rt-clip icon onto the taskbar to keep it one click away.",
+      "Windows 11 places new tray icons in the hidden icons area. Drag the RT Clip icon onto the taskbar to keep it one click away.",
     ],
   },
   {
     slug: "rt-wow-sync",
-    name: "rt-wow-sync",
+    name: "RT WoW Sync",
     kind: "Game utility",
     tagline: "Your World of Warcraft addon settings, keybindings and macros, the same on every PC.",
     description:
-      "rt-wow-sync snapshots the settings of each game flavor and keeps them in sync between your PCs, through a folder you already sync or your own Google Drive. Launch the game from it and you always start with the latest settings.",
+      "RT WoW Sync snapshots the settings of each game flavor and keeps them in sync between your PCs, through a folder you already sync or your own Google Drive. Launch the game from it and you always start with the latest settings.",
     icon: "/apps/rt-wow-sync/icon.png",
     releasesRepo: "rt-labs-dev/rt-wow-sync-releases",
     platforms: ["windows", "mac"],
@@ -108,7 +108,7 @@ export const apps: App[] = [
       },
       {
         title: "Launch with the latest",
-        body: "Launch the game from rt-wow-sync and it pulls newer settings first, so you never start a session with yesterday's layout.",
+        body: "Launch the game from RT WoW Sync and it pulls newer settings first, so you never start a session with yesterday's layout.",
       },
       {
         title: "Knows what changed",
@@ -130,7 +130,7 @@ export const apps: App[] = [
     notes: [
       "The macOS version is not notarized yet. After moving it to Applications, right-click it and choose Open the first time.",
       "Set every PC to the same sync location. Signing in to Google does not switch an existing folder setup.",
-      "rt-wow-sync is not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft is a trademark of Blizzard Entertainment, Inc.",
+      "RT WoW Sync is not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft is a trademark of Blizzard Entertainment, Inc.",
     ],
     widePreview: true,
   },
