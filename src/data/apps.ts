@@ -1,4 +1,7 @@
-export type Platform = "windows" | "mac";
+export type Platform = "windows" | "mac" | "linux";
+
+// One download button. patterns are tried in order against the release's file names.
+export type DownloadOption = { platform: Platform; label: string; patterns: RegExp[] };
 
 export type App = {
   slug: string;
@@ -9,14 +12,19 @@ export type App = {
   icon: string;
   releasesRepo: string;
   platforms: Platform[];
-  requirements: Record<Platform, string>;
+  downloads: DownloadOption[];
+  requirements: Partial<Record<Platform, string>>;
+  steps?: { title: string; body: string }[];
   specs: { label: string; value: string }[];
   features: { title: string; body: string }[];
   notes: string[];
   widePreview?: boolean;
 };
 
-export const PLATFORM_NAMES: Record<Platform, string> = { windows: "Windows", mac: "macOS" };
+export const PLATFORM_NAMES: Record<Platform, string> = { windows: "Windows", mac: "macOS", linux: "Linux" };
+
+const windowsSetup: DownloadOption = { platform: "windows", label: "Windows", patterns: [/setup\.exe$/i, /\.msi$/i] };
+const macUniversal: DownloadOption = { platform: "mac", label: "macOS", patterns: [/universal\.dmg$/i, /\.dmg$/i] };
 
 export const apps: App[] = [
   {
@@ -29,6 +37,7 @@ export const apps: App[] = [
     icon: "/apps/rt-clip/icon.png",
     releasesRepo: "rt-labs-dev/rt-clip-releases",
     platforms: ["windows", "mac"],
+    downloads: [windowsSetup, macUniversal],
     requirements: {
       windows: "Windows 10 or 11, 64-bit",
       mac: "macOS 11 or later, Apple silicon or Intel",
@@ -80,6 +89,7 @@ export const apps: App[] = [
     icon: "/apps/rt-wow-sync/icon.png",
     releasesRepo: "rt-labs-dev/rt-wow-sync-releases",
     platforms: ["windows", "mac"],
+    downloads: [windowsSetup, macUniversal],
     requirements: {
       windows: "Windows 10 or 11, 64-bit",
       mac: "macOS 11 or later, Apple silicon or Intel",
@@ -121,6 +131,87 @@ export const apps: App[] = [
       "The macOS version is not notarized yet. After moving it to Applications, right-click it and choose Open the first time.",
       "Set every PC to the same sync location. Signing in to Google does not switch an existing folder setup.",
       "rt-wow-sync is not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft is a trademark of Blizzard Entertainment, Inc.",
+    ],
+    widePreview: true,
+  },
+  {
+    slug: "rt-stream",
+    name: "RT Stream",
+    kind: "Media server",
+    tagline: "Your own streaming service for the movies, shows and music you already have.",
+    description:
+      "RT Stream turns the media folders on your computer into a personal streaming service. It finds posters and details for everything, then streams to any browser in your home, converting files on the fly when a device can't play them directly.",
+    icon: "/apps/rt-stream/icon.png",
+    releasesRepo: "rt-labs-dev/rt-stream-releases",
+    platforms: ["windows", "mac", "linux"],
+    downloads: [
+      { platform: "windows", label: "Windows", patterns: [/windows-x64-setup\.exe$/i, /setup\.exe$/i] },
+      { platform: "mac", label: "macOS, Apple silicon", patterns: [/macos-arm64\.dmg$/i] },
+      { platform: "mac", label: "macOS, Intel", patterns: [/macos-amd64\.dmg$/i] },
+      { platform: "linux", label: "Linux, .deb", patterns: [/_amd64\.deb$/i] },
+      { platform: "linux", label: "Linux, AppImage", patterns: [/\.AppImage$/i] },
+    ],
+    requirements: {
+      windows: "Windows 10 or 11, 64-bit",
+      mac: "macOS 11 or later, separate downloads for Apple silicon and Intel",
+      linux: "64-bit Linux. The .deb is for Debian and Ubuntu, the AppImage runs on most others",
+    },
+    steps: [
+      {
+        title: "Install and open it",
+        body: "RT Stream runs quietly in your system tray or menu bar. FFmpeg comes bundled, so there is nothing else to install.",
+      },
+      {
+        title: "Create your account",
+        body: "Your browser opens to http://localhost:8722. The first time, it asks you to create the admin account.",
+      },
+      {
+        title: "Add your media folders",
+        body: "Point it at your movie, TV and music folders. It scans them and fetches posters, titles and details.",
+      },
+      {
+        title: "Watch anywhere at home",
+        body: "Open RT Stream in any browser on your network at http://your-computer:8722, and pick up where you left off.",
+      },
+    ],
+    specs: [
+      { label: "Price", value: "Free" },
+      { label: "Libraries", value: "Movies, TV shows and music" },
+      { label: "Streaming", value: "HLS, with on-the-fly FFmpeg conversion and direct play" },
+      { label: "Data", value: "Stays on your computer, in a single SQLite database" },
+      { label: "Metadata", value: "TMDB for movies and shows, MusicBrainz for music" },
+      { label: "Built with", value: "Go and React" },
+    ],
+    features: [
+      {
+        title: "Organized for you",
+        body: "Scans your folders, recognizes titles from file names, and adds posters, overviews and cast details automatically.",
+      },
+      {
+        title: "Plays in any browser",
+        body: "Files that a browser can play are sent as they are. Everything else is converted on the fly, and you can still skip around freely.",
+      },
+      {
+        title: "Movies, shows and music",
+        body: "Continue watching and continue listening, seasons and episodes, artists and albums, playlists and lyrics.",
+      },
+      {
+        title: "Accounts for everyone",
+        body: "Give each person in your home their own account and progress. Two-step sign-in is available for extra protection.",
+      },
+      {
+        title: "Zero setup",
+        body: "Metadata works out of the box, FFmpeg is included, and your library and settings live in your user folder, so they survive updates.",
+      },
+      {
+        title: "Runs your way",
+        body: "Use the tray app on your desktop, or the portable download for a headless home server that runs without a desktop.",
+      },
+    ],
+    notes: [
+      "The installers are not signed yet. On Windows, if SmartScreen appears, choose More info and then Run anyway. On a Mac, right-click the app and choose Open the first time.",
+      "Other devices reach RT Stream through your network, so your firewall may ask to allow it the first time.",
+      "This product uses the TMDB API but is not endorsed or certified by TMDB.",
     ],
     widePreview: true,
   },

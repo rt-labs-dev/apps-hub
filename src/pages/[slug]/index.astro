@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import Base from "../../layouts/Base.astro";
 import RtClipPreview from "../../components/RtClipPreview.astro";
 import RtWowSyncPreview from "../../components/RtWowSyncPreview.astro";
+import RtStreamPreview from "../../components/RtStreamPreview.astro";
 import DownloadButtons from "../../components/DownloadButtons.astro";
 import { apps, indexNumber, PLATFORM_NAMES, type App } from "../../data/apps";
 
@@ -13,13 +14,17 @@ const { app } = Astro.props as { app: App };
 const previews: Record<string, typeof RtClipPreview> = {
   "rt-clip": RtClipPreview,
   "rt-wow-sync": RtWowSyncPreview,
+  "rt-stream": RtStreamPreview,
 };
 const wide = app.widePreview === true;
 const Preview = previews[app.slug];
 
 const specs = [
   { label: "Platforms", value: app.platforms.map((platform) => PLATFORM_NAMES[platform]).join(", ") },
-  ...app.platforms.map((platform) => ({ label: `${PLATFORM_NAMES[platform]} needs`, value: app.requirements[platform] })),
+  ...app.platforms.flatMap((platform) => {
+    const requirement = app.requirements[platform];
+    return requirement ? [{ label: `${PLATFORM_NAMES[platform]} needs`, value: requirement }] : [];
+  }),
   ...app.specs,
 ];
 ---
@@ -42,7 +47,7 @@ const specs = [
         </div>
         <h1 class="mt-6 text-5xl font-semibold tracking-tight text-neutral-50 sm:text-6xl">{app.name}</h1>
         <p class="mt-4 max-w-4xl text-xl text-neutral-200">{app.tagline}</p>
-        <div class="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-16">
+        <div class={`mt-6 grid gap-8 ${app.downloads.length > 2 ? "" : "lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-16"}`}>
           <p class="max-w-2xl text-neutral-400">{app.description}</p>
           <DownloadButtons app={app} />
         </div>
@@ -67,6 +72,23 @@ const specs = [
   }
 
   {Preview && wide && <section class="pb-16"><Preview /></section>}
+
+  {
+    app.steps && (
+      <section class="border-t border-line py-16">
+        <h2 class="font-mono text-xs tracking-widest text-neutral-500 uppercase">How it works</h2>
+        <ol class="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+          {app.steps.map((step, index) => (
+            <li class="border-t-2 border-cyan-400/60 pt-4">
+              <span class="font-mono text-xs text-cyan-400">Step {index + 1}</span>
+              <h3 class="mt-2 font-medium text-neutral-100">{step.title}</h3>
+              <p class="mt-1.5 text-sm text-neutral-400">{step.body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  }
 
   <section class="grid gap-x-16 gap-y-12 border-t border-line py-16 lg:grid-cols-[1fr_22rem]">
     <div>

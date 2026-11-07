@@ -1,8 +1,8 @@
 ---
 import { Download } from "lucide-static";
-import { PLATFORM_NAMES, type App } from "../data/apps";
+import type { App } from "../data/apps";
 import { icon } from "../lib/icons";
-import { formatDate, formatSize, latestRelease } from "../lib/releases";
+import { findAsset, formatDate, formatSize, latestRelease } from "../lib/releases";
 
 type Props = { app: App };
 
@@ -13,27 +13,27 @@ const release = await latestRelease(app.releasesRepo);
 <div>
   <div class="flex flex-wrap gap-3">
     {
-      app.platforms.map((platform) => {
-        const download = release?.downloads[platform];
-        return download ? (
+      app.downloads.map((option) => {
+        const asset = findAsset(release, option.patterns);
+        return asset ? (
           <a
-            href={download.url}
-            data-platform={platform}
+            href={asset.url}
+            data-platform={option.platform}
             class="download group flex items-center gap-3 rounded-lg border border-white/15 px-4 py-3 text-neutral-100 transition-colors hover:border-cyan-400 hover:bg-cyan-400/10"
           >
             <Fragment set:html={icon(Download, "size-4 text-cyan-400")} />
             <span>
-              <span class="block font-medium">{PLATFORM_NAMES[platform]}</span>
-              <span class="block font-mono text-[11px] text-neutral-500">{formatSize(download.size)}</span>
+              <span class="block font-medium">{option.label}</span>
+              <span class="block font-mono text-[11px] text-neutral-500">{formatSize(asset.size)}</span>
             </span>
           </a>
         ) : (
           <span
-            data-platform={platform}
+            data-platform={option.platform}
             class="download flex items-center gap-3 rounded-lg border border-dashed border-white/15 px-4 py-3 text-neutral-500"
           >
             <span>
-              <span class="block font-medium text-neutral-300">{PLATFORM_NAMES[platform]}</span>
+              <span class="block font-medium text-neutral-300">{option.label}</span>
               <span class="block font-mono text-[11px]">coming soon</span>
             </span>
           </span>
@@ -60,9 +60,10 @@ const release = await latestRelease(app.releasesRepo);
 <script is:inline>
   (() => {
     const agent = navigator.userAgent;
-    const platform = /Mac/.test(agent) ? "mac" : /Win/.test(agent) ? "windows" : null;
+    const platform = /Mac/.test(agent) ? "mac" : /Win/.test(agent) ? "windows" : /Linux|X11/.test(agent) ? "linux" : null;
     if (!platform) return;
-    document.querySelectorAll(`.download[data-platform="${platform}"]`).forEach((element) => {
+    const matches = [...document.querySelectorAll(`.download[data-platform="${platform}"]`)];
+    matches.reverse().forEach((element) => {
       if (element.tagName === "A") {
         element.classList.remove("border-white/15");
         element.classList.add("border-cyan-400", "bg-cyan-400/10");

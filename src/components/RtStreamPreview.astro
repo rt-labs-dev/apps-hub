@@ -1,0 +1,112 @@
+---
+import { ChevronDown, Clapperboard, Disc3, Film, House, Music, Search, Settings, Tv, UserCircle, Users } from "lucide-static";
+import { icon } from "../lib/icons";
+
+const libraries = [
+  { label: "Home", glyph: House, active: true },
+  { label: "Movies", glyph: Film, active: false },
+  { label: "TV Shows", glyph: Tv, active: false },
+  { label: "Music", glyph: Music, active: false },
+];
+
+// Sample posters drawn with gradients, so the preview shows no real artwork.
+const watching = [
+  { title: "Northern Lights", meta: "2024", art: "from-cyan-700 via-sky-900 to-slate-950", progress: 64 },
+  { title: "The Long Harbor", meta: "S2 · E5", art: "from-amber-600 via-orange-900 to-stone-950", progress: 35 },
+  { title: "Glass Orchard", meta: "2023", art: "from-emerald-600 via-teal-900 to-zinc-950", progress: 82 },
+  { title: "Signal Lost", meta: "S1 · E8", art: "from-fuchsia-700 via-purple-950 to-slate-950", progress: 18 },
+  { title: "Paper Moons", meta: "2022", art: "from-rose-600 via-red-950 to-stone-950", progress: 51 },
+  { title: "Low Tide", meta: "S3 · E1", art: "from-indigo-600 via-blue-950 to-slate-950", progress: 9 },
+];
+
+const listening = [
+  { title: "Midnight Static", meta: "Album", art: "from-cyan-500 to-blue-900" },
+  { title: "Road Trip", meta: "Playlist", art: "from-amber-400 to-rose-800" },
+  { title: "Velvet Season", meta: "Artist", art: "from-violet-500 to-indigo-950" },
+  { title: "Slow Mornings", meta: "Playlist", art: "from-emerald-400 to-teal-900" },
+  { title: "Harbor Lights", meta: "Album", art: "from-orange-400 to-stone-800" },
+  { title: "Night Drive", meta: "Playlist", art: "from-sky-400 to-slate-900" },
+];
+---
+
+<figure
+  class="w-full overflow-hidden rounded-xl border border-cyan-400/25 shadow-[0_30px_80px_-20px_rgb(6_182_212/0.25)] [font-family:'Segoe_UI',system-ui,sans-serif]"
+  aria-label="The RT Stream web app home page, with sample titles"
+>
+  <div class="flex h-12 items-center gap-3 border-b border-gray-700/50 bg-zinc-950 px-4">
+    <img src="/apps/rt-stream/logo.svg" alt="" class="h-6 w-auto" />
+    <span class="mr-3 hidden text-sm font-semibold text-gray-200 sm:inline">RT Stream</span>
+    <div class="relative max-w-sm flex-1">
+      <Fragment set:html={icon(Search, "absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-gray-500")} />
+      <div class="rounded-md border border-gray-700/60 bg-zinc-900 py-1 pr-3 pl-8 text-[13px] text-gray-500">Search movies, shows and music</div>
+    </div>
+    <div class="ml-auto flex items-center gap-1.5 text-gray-400">
+      <Fragment set:html={icon(UserCircle, "size-4")} />
+      <span class="hidden text-xs sm:inline">you@home.lan</span>
+      <Fragment set:html={icon(ChevronDown, "size-3 text-gray-600")} />
+    </div>
+  </div>
+
+  <div class="flex bg-linear-to-br from-slate-900 to-stone-950">
+    <aside class="hidden w-44 shrink-0 flex-col border-r border-gray-800/60 bg-zinc-950 md:flex">
+      <nav class="flex flex-col gap-0.5 p-2">
+        {
+          libraries.map((library) => (
+            <span
+              class={`flex h-8 items-center gap-2 rounded-md px-3 text-[13px] ${
+                library.active ? "bg-gray-800 font-medium text-cyan-400" : "text-gray-400"
+              }`}
+            >
+              <Fragment set:html={icon(library.glyph, "size-4")} />
+              {library.label}
+            </span>
+          ))
+        }
+      </nav>
+      <div class="mt-auto flex flex-col gap-0.5 border-t border-gray-700/50 p-2 text-[13px] text-gray-500">
+        <span class="flex h-8 items-center gap-2 px-3"><Fragment set:html={icon(Settings, "size-4")} /> Manage Libraries</span>
+        <span class="flex h-8 items-center gap-2 px-3"><Fragment set:html={icon(Users, "size-4")} /> Users</span>
+      </div>
+    </aside>
+
+    <div class="min-w-0 flex-1 space-y-6 p-5">
+      <section>
+        <h3 class="flex items-center gap-2 text-base font-semibold tracking-tight text-stone-200">
+          <Fragment set:html={icon(Clapperboard, "size-4 text-cyan-400")} /> Continue Watching
+        </h3>
+        <div class="mt-3 flex gap-3 overflow-hidden">
+          {
+            watching.map((item) => (
+              <div class="w-24 shrink-0">
+                <div class={`relative flex aspect-2/3 items-end overflow-hidden rounded-md bg-linear-to-br p-2 ${item.art}`}>
+                  <span class="text-[11px] leading-tight font-semibold text-white/90 drop-shadow">{item.title}</span>
+                  <span class="absolute inset-x-0 bottom-0 h-1 bg-black/50">
+                    <span class="block h-full bg-cyan-500" style={`width:${item.progress}%`} />
+                  </span>
+                </div>
+                <p class="mt-1.5 truncate text-xs font-medium text-stone-200">{item.title}</p>
+                <p class="truncate text-[11px] text-gray-500">{item.meta}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+      <section>
+        <h3 class="flex items-center gap-2 text-base font-semibold tracking-tight text-stone-200">
+          <Fragment set:html={icon(Disc3, "size-4 text-cyan-400")} /> Continue Listening
+        </h3>
+        <div class="mt-3 flex gap-3 overflow-hidden">
+          {
+            listening.map((item) => (
+              <div class="w-24 shrink-0">
+                <div class={`aspect-square rounded-md bg-linear-to-br ${item.art}`} />
+                <p class="mt-1.5 truncate text-xs font-medium text-stone-200">{item.title}</p>
+                <p class="text-[11px] text-gray-500">{item.meta}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+</figure>
