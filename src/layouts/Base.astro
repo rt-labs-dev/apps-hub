@@ -5,6 +5,8 @@ import "@fontsource/ibm-plex-sans/600.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "../styles/global.css";
+import { Coffee } from "lucide-static";
+import { icon } from "../lib/icons";
 
 type Props = {
   title: string;
@@ -34,7 +36,18 @@ const year = new Date().getFullYear();
           <img src="/logo.svg" alt="" class="size-7" />
           <span class="font-medium tracking-tight">RT Labs</span>
         </a>
-        <span class="font-mono text-xs text-neutral-500">apps.rtobo.dev</span>
+        <div class="flex items-center gap-5">
+          <span class="hidden font-mono text-xs text-neutral-500 sm:inline">apps.rtobo.dev</span>
+          <a
+            href="https://ko-fi.com/rtobo"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 rounded-md border border-line px-3 py-1.5 font-mono text-xs text-neutral-300 transition-colors hover:border-cyan-400 hover:text-cyan-300"
+          >
+            <Fragment set:html={icon(Coffee, "size-4")} />
+            Support me
+          </a>
+        </div>
       </header>
       <main class="flex-1">
         <slot />
