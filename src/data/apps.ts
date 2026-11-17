@@ -36,11 +36,18 @@ export const apps: App[] = [
       "RT Clip keeps everything you copy one click away. Open it from the tray or menu bar, click an item, and it is back on your clipboard, ready to paste.",
     icon: "/apps/rt-clip/icon.png",
     releasesRepo: "rt-labs-dev/rt-clip-releases",
-    platforms: ["windows", "mac"],
-    downloads: [windowsSetup, macUniversal],
+    platforms: ["windows", "mac", "linux"],
+    downloads: [
+      windowsSetup,
+      macUniversal,
+      { platform: "linux", label: "Linux, .deb", patterns: [/_amd64\.deb$/i] },
+      { platform: "linux", label: "Linux, .rpm", patterns: [/\.x86_64\.rpm$/i] },
+      { platform: "linux", label: "Linux, AppImage", patterns: [/\.AppImage$/i] },
+    ],
     requirements: {
       windows: "Windows 10 or 11, 64-bit",
       mac: "macOS 11 or later, Apple silicon or Intel",
+      linux: "64-bit Linux. The .deb is for Debian and Ubuntu, the .rpm for Fedora and openSUSE, the AppImage runs on most others",
     },
     specs: [
       { label: "Price", value: "Free" },
@@ -71,12 +78,13 @@ export const apps: App[] = [
       },
       {
         title: "Native and light",
-        body: "A small native app for Windows and macOS. No sign-up, no ads and no tracking.",
+        body: "A small native app for Windows, macOS and Linux. No sign-up, no ads and no tracking.",
       },
     ],
     notes: [
       "The macOS version is not notarized yet. After moving it to Applications, right-click it and choose Open the first time.",
       "Windows 11 places new tray icons in the hidden icons area. Drag the RT Clip icon onto the taskbar to keep it one click away.",
+      "On Linux, GNOME needs the AppIndicator and KStatusNotifierItem Support extension to show the tray icon. Ubuntu includes it already.",
     ],
   },
   {
